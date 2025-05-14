@@ -13,5 +13,16 @@ export const spotifyAPI = async (url, method, body, token) => {
         throw new Error(`Spotify API error: ${response.statusText}`);
     }
 
-    return response.json();
+    const text = await response.text();
+    if (!text) {
+        console.log("No content in response");
+        return null; // Handle cases with no content
+    }
+
+    try {
+        return JSON.parse(text);
+    } catch (error) {
+        console.error("Failed to parse JSON response:", text);
+        throw new Error("Invalid JSON response");
+    }
 };
