@@ -4,14 +4,14 @@ export const spotifyAPI = async (url, method, body, token) => {
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
-        }
         },
-    )
-    body: body ?? null
+        body: body ?? null // Ensure body is included properly
+    });
+
     if (!response.ok) {
-        return console.error(response);
+        console.error("Spotify API error:", response);
+        throw new Error(`Spotify API error: ${response.statusText}`);
     }
-    else {
-        return response.json();
-    }
+
+    return response.json();
 };
